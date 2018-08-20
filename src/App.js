@@ -6,7 +6,15 @@ import './App.css';
 
 class App extends Component {
 
+  state = {
+
+    venues : [],
+
+
+  }
+
   componentDidMount(){
+    this.getVenues()
     this.renderMap()
   }
 
@@ -16,15 +24,27 @@ class App extends Component {
   }
 
   getVenues = () => {
-    const endPoint = "https://api.foursquare.com/v2/venues/explore"
+    const endPoint = "https://api.foursquare.com/v2/venues/explore?"
     const parameters = {
-      client_id : "" ,
-      client_secret : "" ,
+      client_id : "B1JDVT55UR5DEOP3XTVYBBYIHOPZUA3L0VPHYMPSOW4LDTHM" ,
+      client_secret : "5PVPA25PYYLPLAHIM0I4YQJVPDRKBJYVMMG4SAYCFHJIYC21" ,
       query : "food",
-      near : "Sydney"
+      near : "Sydney",
+      v : "20180323",
+      
+    
     }
 
     axios.get( endPoint + new URLSearchParams(parameters))
+    .then(response => {
+      this.setState({
+        venues : response.data.response.groups[0].items
+      })
+      console.log(response.data.response.groups[0].items)
+    })
+    .catch(error => {
+      console.log("Error!!" + error)
+    })
 
   }
 
@@ -32,7 +52,15 @@ class App extends Component {
     var map = new window.google.maps.Map(document.getElementById('map'), {
       center: {lat: -34.397, lng: 150.644},
       zoom: 8
+    })
+
+    var marker = new google.maps.Marker({
+      position: {lat: -34.397, lng: 150.644},
+      map: map,
+      title: 'Hello World!'
     });
+
+
   }
 
 
