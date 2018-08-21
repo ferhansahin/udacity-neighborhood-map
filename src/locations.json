@@ -1,0 +1,56 @@
+[
+    {
+      "key": "key-kamppi",
+      "title": "Kamppi",
+      "name": "Kamppi",
+      "position": { "lat": 60.1693, "lng": 24.9335 }
+    },
+    {
+      "key": "key-university",
+      "title": "University of Helsinki",
+      "name": "University",
+      "position": { "lat": 60.1683, "lng": 24.949 }
+    },
+    {
+      "key": "key-stockmann",
+      "title": "Stockmann",
+      "name": "Stockmann",
+      "position": { "lat": 60.1683, "lng": 24.9422 }
+    },
+    {
+      "key": "key-library",
+      "title": "National Library of Finland",
+      "name": "Library",
+      "position": { "lat": 60.1702, "lng": 24.9502 }
+    },
+    {
+      "key": "key-cathedral",
+      "title": "Helsinki Cathedral",
+      "name": "Cathedral",
+      "position": { "lat": 60.1702, "lng": 24.9522 }
+    },
+    {
+      "key": "key-south-harbour",
+      "title": "South Harbour, Helsinki",
+      "name": "South Harbour",
+      "position": { "lat": 60.1647, "lng": 24.9583 }
+    },
+    {
+      "key": "key-central-station",
+      "title": "Helsinki Central Station",
+      "name": "Central Station",
+      "position": { "lat": 60.1719, "lng": 24.9413 }
+    },
+    {
+      "key": "key-ice-hall",
+      "title": "Helsinki Ice Hall",
+      "name": "Ice Hall",
+      "position": { "lat": 60.1891, "lng": 24.9222 }
+    },
+    {
+      "key": "key-hartwall-arena",
+      "title": "Hartwall Arena",
+      "name": "Hartwall Arena",
+      "position": { "lat": 60.2057, "lng": 24.9288 }
+    }
+]

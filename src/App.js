@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
+import fetchJsonp from 'fetch-jsonp';
+
 import logo from './logo.svg';
 import axios from 'axios' ;
 import './App.css';
+
+import * as dataLocations from './locations.json';
+import FilterLocations from './FilterLocations';
+import InfoWindow from './InfoWindow';
 
 
 class App extends Component {
@@ -9,6 +15,12 @@ class App extends Component {
   state = {
 
     venues : [],
+    locations: dataLocations,
+    map: '',
+    markers: [],
+    infoWindowIsOpen: false,
+    currentMarker: {},
+    infoContent: ''
 
 
   }
@@ -23,13 +35,13 @@ class App extends Component {
     window.initMap = this.initMap
   }
 
-  getVenues = () => {
+ getVenues = () => {
     const endPoint = "https://api.foursquare.com/v2/venues/explore?"
     const parameters = {
       client_id : "B1JDVT55UR5DEOP3XTVYBBYIHOPZUA3L0VPHYMPSOW4LDTHM" ,
       client_secret : "5PVPA25PYYLPLAHIM0I4YQJVPDRKBJYVMMG4SAYCFHJIYC21" ,
       query : "food",
-      near : "Sydney",
+      near : "Helsinki",
       v : "20180323",
       
     
@@ -49,17 +61,24 @@ class App extends Component {
   }
 
 
+
   // Create a map
   initMap = () => {
+    let controlledThis = this;
+    const { locations, markers } = this.state;
+
+
     var map = new window.google.maps.Map(document.getElementById('map'), {
-      center: {lat: -34.397, lng: 150.644},
+      center: {lat: 60.1699, lng: 24.9384},
       zoom: 8
     })
-
+        /*
        // Create a info window
+       
       var infowindow = new window.google.maps.InfoWindow({
-      });
+      }); 
 
+      
 
     //Display dynamic markers
     this.state.venues.map( myVenue => {
@@ -72,7 +91,8 @@ class App extends Component {
       var marker = new window.google.maps.Marker({
         position: {lat: myVenue.venue.location.lat, lng: myVenue.venue.location.lng},
         map: map,
-        title: myVenue.venue.name
+        title: myVenue.venue.name,
+        animation: window.google.maps.Animation.DROP,
         
       });
 
@@ -88,9 +108,52 @@ class App extends Component {
         infowindow.open(map, marker);
       });
 
-    })
+    }) */
 
+    /* Keep state in sync */
+    this.setState({
+      map
+    });
 
+    /* Create a marker for each location in the locations.json file */
+    for (let i = 0; i < locations.length; i++) {
+      /* Define the values of the properties */
+      var obj = locations[i];
+      
+      /* Create the marker itself */
+      var marker = new window.google.maps.Marker({
+        map: map,
+        position: new window.google.maps.LatLng(obj.latitude, obj.longtitude),
+        title: obj.title,
+        id: obj.id
+      });
+
+      /* Get those markers into the state */
+      markers.push(marker);
+
+      /* Open infoWindow when click on the marker */
+      marker.addListener('click', function () {
+        controlledThis.openInfoWindow(marker);
+      });
+    }
+
+    }
+  
+   
+
+    openInfoWindow = (marker) => {
+      this.setState({
+        infoWindowIsOpen: true,
+        currentMarker: marker
+      });
+     
+    }
+
+      closeInfoWindow = () => {
+        this.setState({
+          infoWindowIsOpen: false,
+          currentMarker: {}
+        });
 
   }
 
@@ -98,9 +161,16 @@ class App extends Component {
 
   render() {
     return (
-      <main>
-      <div id="map"></div>
-      </main>
+      <div className="App">
+
+        <FilterLocations
+          locationsList={this.state.locations}
+          markers={this.state.markers}
+          openInfoWindow={this.openInfoWindow}
+        />
+       
+        <div id="map" role="application"></div>
+      </div>
     );
   }
 }
